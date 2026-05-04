@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="ApexForge — Premium digital garage for performance tuning, dyno visualization, and aesthetic customization for car & bike enthusiasts."/>
+  <meta name="theme-color" content="#07090c"/>
+  <title>ApexForge — Digital Garage for Car & Bike Mods</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="index.html" aria-label="ApexForge Home">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>ApexForge</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="performance.html">Performance Lab</a>
+      <a href="aesthetic.html">Aesthetic Studio</a>
+      <a href="garage.html">Garage</a>
+      <a href="recommendations.html">Recommendations</a>
+      <a href="community.html">Community</a>
+      <a href="knowledge.html">Knowledge</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="btn btn--ghost" type="button" data-cmdk-open>Search <span class="kbd">Ctrl K</span></button>
+      <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+      <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" aria-hidden="true" data-drawer>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="row" style="align-items:center">
+      <div class="brand"><span class="brand__mark" aria-hidden="true"></span><span>ApexForge</span></div>
+      <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+    </div>
+    <div class="drawer__links">
+      <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+      <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+      <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+      <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+      <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+      <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+      <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+    </div>
+    <hr class="hr"/>
+    <div class="notice">Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.</div>
+  </div>
+</div>
+
+<div class="modal" aria-hidden="true" data-cmdk>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="modal__pad modal__top">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Command Search</div>
+        <div class="modal__title">Jump to modules, builds, and tools</div>
+      </div>
+      <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+    </div>
+    <div class="modal__content">
+      <div class="field">
+        <label class="label" for="cmdk">Search</label>
+        <input class="input" id="cmdk" data-cmdk-input placeholder="Type: dyno, wrap, garage…" autocomplete="off"/>
+      </div>
+      <div style="height:12px"></div>
+      <div class="list" data-cmdk-list></div>
+      <div style="height:12px"></div>
+      <div class="small">Keyboard: <span class="kbd">Enter</span> opens top result, <span class="kbd">Esc</span> closes.</div>
+    </div>
+  </div>
+</div>
+
+<main id="content">
+  <!-- Hero with particle canvas -->
+  <section class="hero hero-cinematic" style="position:relative;overflow:hidden">
+    <canvas id="heroCanvas" class="heroCanvas" aria-hidden="true"></canvas>
+    <!-- Cinematic HUD corners -->
+    <div class="hero-corner hero-corner--tl"></div>
+    <div class="hero-corner hero-corner--tr"></div>
+    <div class="hero-corner hero-corner--bl"></div>
+    <div class="hero-corner hero-corner--br"></div>
+    <div class="hero-scan"></div>
+    <!-- Glow orbs -->
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+
+    <div class="container hero__grid">
+      <div class="hero__panel">
+        <div class="scanline"></div>
+        <div class="hero__pad">
+          <div class="kicker">
+            <strong>Digital Garage</strong> for tuners, builders, and designers
+          </div>
+          <div class="h1">Build smarter.<br>Tune safer.<br>Look faster.</div>
+          <p class="lead">ApexForge is a premium, performance-first platform for car & bike modification ecosystems — from engineering-grade power upgrades to immersive aesthetic configuration.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="performance.html">⚡ Enter Performance Lab</a>
+            <a class="btn" href="aesthetic.html">🎨 Open Aesthetic Studio</a>
+            <button class="btn btn--ghost" type="button" data-start-demo>▶ Start a Build</button>
+          </div>
+          <div class="hero__stats">
+            <div class="stat">
+              <div class="stat__kpi">Dyno + Sim</div>
+              <div class="stat__lbl">Stock vs tuned overlays with sprint estimates</div>
+            </div>
+            <div class="stat">
+              <div class="stat__kpi">Fitment-first</div>
+              <div class="stat__lbl">Car/Bike → Make/Model/Year filtering</div>
+            </div>
+            <div class="stat">
+              <div class="stat__kpi">Creator-grade</div>
+              <div class="stat__lbl">3D configurator + showcase-ready visuals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__panel">
+        <div class="hero__pad">
+          <div class="eyebrow"><span class="dot"></span>Quick Start</div>
+          <div class="h2" style="margin-top:10px">Lock your vehicle platform</div>
+          <p class="lead" style="margin-top:0">Choose a baseline and we'll tailor mods, warnings, and predicted performance.</p>
+          <form class="form" data-vehicle-form style="margin-top:16px">
+            <div class="field">
+              <div class="label">Platform</div>
+              <select class="select" data-vehicle="type"><option value="car">Car</option><option value="bike">Bike</option></select>
+            </div>
+            <div class="field">
+              <div class="label">Make</div>
+              <select class="select" data-vehicle="make"><option value="" selected>Select make…</option></select>
+            </div>
+            <div class="field">
+              <div class="label">Model</div>
+              <select class="select" data-vehicle="model" disabled><option value="" selected>Select model…</option></select>
+            </div>
+            <div class="field">
+              <div class="label">Year</div>
+              <select class="select" data-vehicle="year" disabled><option value="" selected>Select year…</option></select>
+            </div>
+            <div class="row" style="align-items:center">
+              <button class="btn btn--primary" type="submit">Create Garage Build</button>
+              <a class="btn btn--ghost" href="recommendations.html">Get Recommendations</a>
+            </div>
+          </form>
+          <div style="height:12px"></div>
+          <div class="notice">
+            <strong>Safety note:</strong> Modding can affect emissions, warranty, reliability, and insurance. Always validate tunes with datalogs, cooling capacity, and braking capability.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Dyno Preview -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="eyebrow" style="margin-bottom:16px"><span class="dot"></span>Live Preview</div>
+      <div class="canvasWrap" style="position:relative">
+        <div class="scanline"></div>
+        <canvas id="homeDyno" class="canvas--tall" aria-label="Demo dyno chart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Module cards -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="grid grid--3">
+        <a class="card" href="performance.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">⚡ Performance Lab</div>
+            <p class="card__desc">ECU remaps, turbo systems, intake/exhaust, drivetrain, suspension, tyres — with dyno overlays and sprint simulations.</p>
+            <div class="card__meta">
+              <span class="pill">Charts</span><span class="pill pill--warn">Safety</span><span class="pill">Compatibility</span>
+            </div>
+            <div class="card__link">Open module →</div>
+          </div>
+        </a>
+        <a class="card" href="aesthetic.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">🎨 Aesthetic Studio</div>
+            <p class="card__desc">A 3D preview workflow for wraps, aero kits, lighting, wheels, and cockpit upgrades — built for creators.</p>
+            <div class="card__meta">
+              <span class="pill">3D Config</span><span class="pill">Materials</span><span class="pill">Showcase</span>
+            </div>
+            <div class="card__link">Open module →</div>
+          </div>
+        </a>
+        <a class="card" href="garage.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">🏎 Digital Garage</div>
+            <p class="card__desc">Save builds, track changes, and keep notes like a pro shop. Local-first today, account sync tomorrow.</p>
+            <div class="card__meta">
+              <span class="pill">Builds</span><span class="pill">Metrics</span><span class="pill">Notes</span>
+            </div>
+            <div class="card__link">Open module →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- More modules -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="grid grid--3">
+        <a class="card" href="recommendations.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">🧠 Smart Recommendations</div>
+            <p class="card__desc">Goal-based 3-step build wizard generating Stage 1/2/3 paths tailored to your vehicle and budget.</p>
+            <div class="card__meta"><span class="pill">AI-assisted</span><span class="pill">Stage builds</span></div>
+            <div class="card__link">Get recommendations →</div>
+          </div>
+        </a>
+        <a class="card" href="community.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">👥 Community</div>
+            <p class="card__desc">Browse creator builds, like favourites, explore trending mods. The garage social layer.</p>
+            <div class="card__meta"><span class="pill">Builds</span><span class="pill">Trending</span></div>
+            <div class="card__link">See community →</div>
+          </div>
+        </a>
+        <a class="card" href="knowledge.html">
+          <div class="card__pad card__pad--lg">
+            <div class="card__title">📚 Knowledge Base</div>
+            <p class="card__desc">Technical articles, safety guides, compliance notes — curated for performance enthusiasts.</p>
+            <div class="card__meta"><span class="pill">Guides</span><span class="pill pill--good">Safety</span></div>
+            <div class="card__link">Browse articles →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform section -->
+  <section class="section">
+    <div class="container split">
+      <div class="panel">
+        <div class="panel__pad">
+          <div class="eyebrow"><span class="dot"></span>Design Language</div>
+          <div class="h2">Aggressive, premium, minimal</div>
+          <p class="lead" style="margin-top:0">Motorsport-inspired typography, carbon textures, neon accents, and restrained motion. Built for speed: fast loads, clear flows, and technical depth without clutter.</p>
+          <hr class="hr"/>
+          <div class="notice"><strong>Performance budget:</strong> minimal JS, GPU-friendly effects, responsive images, and progressive enhancement. Motion respects <code>prefers-reduced-motion</code>.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel__pad">
+          <div class="eyebrow"><span class="dot"></span>Platform DNA</div>
+          <div class="h2">Built to scale</div>
+          <p class="lead" style="margin-top:0">Designed to grow into e-commerce and booking: fitment databases, pro profiles, services (dyno, tuning, wraps), and verified creators.</p>
+          <div class="grid" style="margin-top:16px">
+            <div class="notice"><strong>Next:</strong> user accounts + build sync + public build pages.</div>
+            <div class="notice notice--warn"><strong>Always:</strong> legality varies by region. This prototype includes general guidance only.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <div class="brand"><span class="brand__mark" aria-hidden="true"></span><span>ApexForge</span></div>
+      <p class="small" style="margin-top:10px">A futuristic digital garage concept for car & bike modification ecosystems. Demo UI only — not legal advice.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px;letter-spacing:.06em">Modules</div>
+      <div class="small">
+        <a href="performance.html">Performance Lab</a><br/>
+        <a href="aesthetic.html">Aesthetic Studio</a><br/>
+        <a href="garage.html">Digital Garage</a><br/>
+        <a href="recommendations.html">Recommendations</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px;letter-spacing:.06em">Trust</div>
+      <div class="small">
+        <a href="knowledge.html">Knowledge Base</a><br/>
+        <a href="legal.html">Legal & Compliance</a><br/>
+        <span>Pro portal (future)</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/home.js"></script>
+<script src="assets/perf.js"></script>
+<script>
+// Demo dyno chart for home page
+(function(){
+  const canvas = document.getElementById('homeDyno');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let animFrame = 0;
+  
+  function drawDyno(){
+    const W = canvas.width = canvas.offsetWidth;
+    const H = canvas.height = canvas.offsetHeight;
+    ctx.clearRect(0,0,W,H);
+    
+    const pad = {l:60,r:24,t:24,b:44};
+    const cw = W-pad.l-pad.r, ch = H-pad.t-pad.b;
+    
+    // Grid
+    ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
+    for(let i=0;i<=5;i++){
+      const y = pad.t + (i/5)*ch;
+      ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    }
+    for(let i=0;i<=8;i++){
+      const x = pad.l + (i/8)*cw;
+      ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,H-pad.b);ctx.stroke();
+    }
+    
+    // Sample data: Toyota Supra
+    const rpm_pts = [2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,6800];
+    const hp_stock = [180,210,260,300,320,330,335,330,320,300,280];
+    const hp_tuned = [210,255,320,370,400,415,420,415,405,385,360];
+    const tq_stock = [430,470,500,495,480,460,440,410,380,350,320];
+    const tq_tuned = [520,570,610,610,590,570,550,520,485,450,415];
+    
+    const maxHP = 450, minHP = 150;
+    
+    function toX(i){ return pad.l + (i/(rpm_pts.length-1))*cw }
+    function toY(val){ return pad.t + (1-(val-minHP)/(maxHP-minHP))*ch }
+    
+    // Animated progress (cycle 0..1)
+    const progress = Math.min(1, animFrame/90);
+    const pts = Math.max(2, Math.round(progress*(rpm_pts.length-1))+1);
+    
+    // Draw stock HP
+    ctx.beginPath();
+    for(let i=0;i<pts&&i<rpm_pts.length;i++){
+      i===0?ctx.moveTo(toX(i),toY(hp_stock[i])):ctx.lineTo(toX(i),toY(hp_stock[i]));
+    }
+    ctx.strokeStyle='rgba(231,238,252,.45)';ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+    
+    // Draw tuned HP
+    ctx.beginPath();
+    for(let i=0;i<pts&&i<rpm_pts.length;i++){
+      i===0?ctx.moveTo(toX(i),toY(hp_tuned[i])):ctx.lineTo(toX(i),toY(hp_tuned[i]));
+    }
+    ctx.strokeStyle='rgba(0,200,255,.9)';ctx.lineWidth=2.5;ctx.stroke();
+    
+    // Fill under tuned
+    ctx.beginPath();
+    for(let i=0;i<pts&&i<rpm_pts.length;i++){
+      i===0?ctx.moveTo(toX(i),toY(hp_tuned[i])):ctx.lineTo(toX(i),toY(hp_tuned[i]));
+    }
+    ctx.lineTo(toX(Math.min(pts-1,rpm_pts.length-1)),H-pad.b);
+    ctx.lineTo(pad.l,H-pad.b);
+    ctx.closePath();
+    const g=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+    g.addColorStop(0,'rgba(0,200,255,.18)');g.addColorStop(1,'rgba(0,200,255,.0)');
+    ctx.fillStyle=g;ctx.fill();
+    
+    // Labels
+    ctx.fillStyle='rgba(231,238,252,.7)';ctx.font='11px Space Mono, monospace';
+    ctx.fillText('RPM →', W-pad.r-30, H-pad.b+36);
+    ctx.fillText('HP', pad.l-38, pad.t+8);
+    
+    // Legend
+    ctx.fillStyle='rgba(0,200,255,.9)';ctx.fillRect(pad.l,pad.t+8,20,3);
+    ctx.fillStyle='rgba(231,238,252,.6)';ctx.font='11px Space Mono, monospace';
+    ctx.fillText('Stage 1 Tune', pad.l+24, pad.t+14);
+    
+    ctx.strokeStyle='rgba(231,238,252,.45)';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(pad.l+140,pad.t+11);ctx.lineTo(pad.l+160,pad.t+11);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='rgba(231,238,252,.5)';ctx.fillText('Stock', pad.l+164, pad.t+14);
+    
+    // Gain callout (after animation completes)
+    if(progress>0.95){
+      const gainHp = hp_tuned[hp_tuned.length-1] - hp_stock[hp_stock.length-1];
+      const ix = rpm_pts.length-1;
+      ctx.fillStyle='rgba(0,200,255,1)';
+      ctx.font='bold 13px Space Mono, monospace';
+      ctx.fillText(`+${gainHp}hp`, toX(ix)-42, toY(hp_tuned[ix])-12);
+    }
+    
+    animFrame++;
+    if(animFrame < 120) requestAnimationFrame(drawDyno);
+  }
+  
+  // Start after short delay
+  setTimeout(()=>{ animFrame=0; drawDyno(); }, 400);
+  window.addEventListener('resize', ()=>{ animFrame=0; drawDyno(); });
+})();
+
+// Particle canvas background
+(function(){
+  const canvas = document.getElementById('heroCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  
+  function Particle(){
+    this.x = Math.random()*W;
+    this.y = Math.random()*H;
+    this.vx = (Math.random()-.5)*.4;
+    this.vy = (Math.random()-.5)*.4;
+    this.r = Math.random()*1.5+.5;
+    this.alpha = Math.random()*.6+.2;
+    this.color = Math.random() > .5 ? '0,200,255' : '255,92,0';
+  }
+  Particle.prototype.update = function(){
+    this.x+=this.vx; this.y+=this.vy;
+    if(this.x<0||this.x>W) this.vx*=-1;
+    if(this.y<0||this.y>H) this.vy*=-1;
+  };
+  
+  function init(){
+    resize();
+    particles = Array.from({length:80},()=>new Particle());
+  }
+  
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Draw connections
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(0,200,255,${.12*(1-d/120)})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
+      }
+      particles[i].update();
+      ctx.beginPath();
+      ctx.arc(particles[i].x,particles[i].y,particles[i].r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${particles[i].color},${particles[i].alpha})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  
+  init();
+  draw();
+  window.addEventListener('resize', ()=>{resize(); particles.forEach(p=>{p.x=Math.min(p.x,W);p.y=Math.min(p.y,H)})});
+})();
+</script>
+</body>
+</html>

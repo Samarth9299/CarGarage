@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="AI-style recommendations: staged build paths based on track, street, and touring usage." />
+    <meta name="theme-color" content="#07090c" />
+    <title>Recommendations — ApexForge</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="index.html" aria-label="ApexForge Home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>ApexForge</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          <a href="performance.html">Performance Lab</a>
+          <a href="aesthetic.html">Aesthetic Studio</a>
+          <a href="garage.html">Garage</a>
+          <a href="recommendations.html" aria-current="page">Recommendations</a>
+          <a href="community.html">Community</a>
+          <a href="knowledge.html">Knowledge</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="btn btn--ghost" type="button" data-cmdk-open>
+            Search <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+          <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" aria-hidden="true" data-drawer>
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="row" style="align-items: center">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+        </div>
+        <div class="drawer__links">
+          <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+          <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+          <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+          <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+          <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+          <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+          <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+        </div>
+        <hr class="hr" />
+        <div class="notice">
+          Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" aria-hidden="true" data-cmdk>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="modal__pad modal__top">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Command Search</div>
+            <div class="modal__title">Jump to modules, builds, and tools</div>
+          </div>
+          <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+        </div>
+        <div class="modal__content">
+          <div class="field">
+            <label class="label" for="cmdk">Search</label>
+            <input class="input" id="cmdk" data-cmdk-input placeholder="Type: stage, track, wrap…" autocomplete="off" />
+          </div>
+          <div style="height: 12px"></div>
+          <div class="list" data-cmdk-list></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="content">
+      <section class="section section--tight">
+        <div class="container">
+          <div class="eyebrow"><span class="dot"></span>AI-based Recommendations (Prototype)</div>
+          <div class="h1" style="margin-top: 12px">Smart Build Paths</div>
+          <p class="lead" style="margin-top: 0">
+            Get a staged plan based on usage (track/street/touring), priorities, and constraints. This prototype uses an
+            explainable scoring model (not a real ML model) to demonstrate UX and product direction.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Inputs</div>
+                  <div class="row__sub">Tune the recommendation logic to your reality.</div>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <form class="grid grid--2" data-rec-form>
+                <div class="field" style="grid-column: 1 / -1">
+                  <div class="label">Vehicle</div>
+                  <div class="grid grid--4" data-vehicle-form>
+                    <div class="field">
+                      <div class="label">Platform</div>
+                      <select class="select" data-vehicle="type">
+                        <option value="car">Car</option>
+                        <option value="bike">Bike</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <div class="label">Make</div>
+                      <select class="select" data-vehicle="make">
+                        <option value="" selected>Select make…</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <div class="label">Model</div>
+                      <select class="select" data-vehicle="model" disabled>
+                        <option value="" selected>Select model…</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <div class="label">Year</div>
+                      <select class="select" data-vehicle="year" disabled>
+                        <option value="" selected>Select year…</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <div class="label">Usage</div>
+                  <select class="select" name="usage">
+                    <option value="street" selected>Street</option>
+                    <option value="track">Track</option>
+                    <option value="touring">Touring</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Primary priority</div>
+                  <select class="select" name="priority">
+                    <option value="balanced" selected>Balanced</option>
+                    <option value="power">Power</option>
+                    <option value="handling">Handling</option>
+                    <option value="looks">Looks</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Budget</div>
+                  <select class="select" name="budget">
+                    <option value="mid" selected>Mid</option>
+                    <option value="low">Low</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Compliance sensitivity</div>
+                  <select class="select" name="compliance">
+                    <option value="strict" selected>Strict (street-legal)</option>
+                    <option value="mixed">Mixed</option>
+                    <option value="track">Track-only OK</option>
+                  </select>
+                </div>
+
+                <div class="row" style="grid-column: 1 / -1; align-items: center">
+                  <button class="btn btn--primary" type="submit">Generate plan</button>
+                  <a class="btn btn--ghost" href="performance.html">Explore in Performance Lab</a>
+                </div>
+              </form>
+
+              <div style="height: 14px"></div>
+              <div class="notice notice--warn">
+                <strong>Important:</strong> recommendations here are generalized. Always verify compatibility, fueling,
+                cooling, brakes, and legality for your exact setup.
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Recommended stages</div>
+                  <div class="row__sub">A build path with rationale, risk flags, and predicted deltas.</div>
+                </div>
+                <div class="row__right">
+                  <button class="btn btn--primary" type="button" data-save-rec disabled>Save to Garage</button>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <div data-rec-empty class="notice">
+                <strong>Generate a plan</strong> to see staged recommendations.
+              </div>
+
+              <div data-rec-results style="display: none">
+                <div class="grid grid--3" aria-label="Estimated deltas">
+                  <div class="stat">
+                    <div class="stat__kpi" data-rec-metric="hp">—</div>
+                    <div class="stat__lbl">Estimated HP</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__kpi" data-rec-metric="tq">—</div>
+                    <div class="stat__lbl">Estimated Torque (Nm)</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__kpi" data-rec-metric="0100">—</div>
+                    <div class="stat__lbl">0–100 km/h (sec)</div>
+                  </div>
+                </div>
+
+                <div style="height: 14px"></div>
+                <div class="list" data-rec-list></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <p class="small">Recommendations are explainable heuristics in this prototype. Real AI can be added later.</p>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Next</div>
+          <div class="small">
+            <a href="garage.html">Open Garage</a><br />
+            <a href="performance.html">Tune in Performance Lab</a><br />
+            <a href="aesthetic.html">Design in Aesthetic Studio</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Trust</div>
+          <div class="small"><a href="legal.html">Compliance</a><br /><a href="knowledge.html">Guides</a></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/perf.js"></script>
+    <script src="assets/recommendations.js"></script>
+  </body>
+</html>
+

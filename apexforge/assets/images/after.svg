@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bodyGradMod" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00c8ff;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#ff5c00;stop-opacity:0.25" />
+    </linearGradient>
+    <linearGradient id="glassGradMod" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00c8ff;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#0055aa;stop-opacity:0.7" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Ground glow -->
+  <ellipse cx="200" cy="178" rx="165" ry="10" fill="rgba(0,200,255,0.15)" filter="url(#glow)"/>
+  <!-- Underglow line -->
+  <line x1="60" y1="164" x2="340" y2="164" stroke="#00c8ff" stroke-width="2" opacity="0.6" filter="url(#glow)"/>
+  <!-- Car body lower - modified/lowered -->
+  <rect x="50" y="118" width="300" height="45" rx="6" fill="#0b1120" stroke="#00c8ff" stroke-width="1.5"/>
+  <!-- Side skirt accent -->
+  <rect x="70" y="150" width="260" height="5" rx="2" fill="#ff5c00" opacity="0.8" filter="url(#glow)"/>
+  <!-- Car body upper - more aggressive roofline -->
+  <path d="M105,118 L148,68 L262,66 L298,118 Z" fill="#0a111f" stroke="#00c8ff" stroke-width="1.5"/>
+  <!-- Windshield -->
+  <path d="M152,116 L162,76 L248,76 L258,116 Z" fill="url(#glassGradMod)" stroke="#00c8ff" stroke-width="1" opacity="0.9"/>
+  <!-- Spoiler -->
+  <rect x="285" y="60" width="45" height="5" rx="2" fill="#ff5c00" stroke="#ff5c00" stroke-width="1" filter="url(#glow)"/>
+  <rect x="322" y="60" width="4" height="18" rx="1" fill="#ff5c00"/>
+  <!-- Front splitter -->
+  <rect x="40" y="155" width="70" height="4" rx="1" fill="#00c8ff" opacity="0.9" filter="url(#glow)"/>
+  <!-- Rear diffuser -->
+  <rect x="295" y="152" width="65" height="6" rx="1" fill="#00c8ff" opacity="0.6" filter="url(#glow)"/>
+  <!-- Front wheel - upgraded rims -->
+  <circle cx="120" cy="160" r="26" fill="#050910" stroke="#00c8ff" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="120" cy="160" r="17" fill="#0a0f1e" stroke="#ff5c00" stroke-width="1.5"/>
+  <!-- Rim spokes -->
+  <line x1="120" y1="143" x2="120" y2="177" stroke="#00c8ff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="103" y1="160" x2="137" y2="160" stroke="#00c8ff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="108" y1="148" x2="132" y2="172" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <line x1="132" y1="148" x2="108" y2="172" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <circle cx="120" cy="160" r="5" fill="#ff5c00"/>
+  <!-- Rear wheel -->
+  <circle cx="280" cy="160" r="26" fill="#050910" stroke="#00c8ff" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="280" cy="160" r="17" fill="#0a0f1e" stroke="#ff5c00" stroke-width="1.5"/>
+  <line x1="280" y1="143" x2="280" y2="177" stroke="#00c8ff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="263" y1="160" x2="297" y2="160" stroke="#00c8ff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="268" y1="148" x2="292" y2="172" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <line x1="292" y1="148" x2="268" y2="172" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <circle cx="280" cy="160" r="5" fill="#ff5c00"/>
+  <!-- LED Headlight strip -->
+  <line x1="52" y1="126" x2="80" y2="128" stroke="#00c8ff" stroke-width="3" filter="url(#glow)"/>
+  <!-- LED Taillight strip -->
+  <line x1="320" y1="126" x2="348" y2="128" stroke="#ff5c00" stroke-width="3" filter="url(#glow)"/>
+  <!-- Label -->
+  <text x="200" y="30" text-anchor="middle" fill="#00c8ff" font-family="monospace" font-size="13" letter-spacing="3" filter="url(#glow)">MODIFIED</text>
+</svg>

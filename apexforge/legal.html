@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Legal compliance and safety notes for vehicle modifications (general guidance)." />
+    <meta name="theme-color" content="#07090c" />
+    <title>Legal & Compliance — ApexForge</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="index.html" aria-label="ApexForge Home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>ApexForge</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          <a href="performance.html">Performance Lab</a>
+          <a href="aesthetic.html">Aesthetic Studio</a>
+          <a href="garage.html">Garage</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="community.html">Community</a>
+          <a href="knowledge.html">Knowledge</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="btn btn--ghost" type="button" data-cmdk-open>
+            Search <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+          <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" aria-hidden="true" data-drawer>
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="row" style="align-items: center">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+        </div>
+        <div class="drawer__links">
+          <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+          <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+          <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+          <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+          <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+          <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+          <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+        </div>
+        <hr class="hr" />
+        <div class="notice">
+          Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" aria-hidden="true" data-cmdk>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="modal__pad modal__top">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Command Search</div>
+            <div class="modal__title">Jump to modules, builds, and tools</div>
+          </div>
+          <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+        </div>
+        <div class="modal__content">
+          <div class="field">
+            <label class="label" for="cmdk">Search</label>
+            <input class="input" id="cmdk" data-cmdk-input placeholder="Type: emissions, lighting…" autocomplete="off" />
+          </div>
+          <div style="height: 12px"></div>
+          <div class="list" data-cmdk-list></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="content">
+      <section class="section section--tight">
+        <div class="container">
+          <div class="eyebrow"><span class="dot"></span>Legal & Compliance</div>
+          <div class="h1" style="margin-top: 12px">Know before you mod</div>
+          <p class="lead" style="margin-top: 0">
+            This page provides general safety and compliance guidance for car & bike modifications. It is not legal
+            advice. Laws vary by country/state/city and can change over time.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Emissions & ECU changes</div>
+              <p class="lead" style="margin-top: 0">
+                ECU remaps, catalyst changes, and exhaust modifications can violate emissions regulations and trigger
+                inspection failures. Some areas allow “track-only” parts; others do not.
+              </p>
+              <div class="notice notice--warn">
+                <strong>Rule of thumb:</strong> if a change affects emissions equipment (cats, O2 sensors, EVAP), assume it
+                requires verification for your region and inspection program.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Noise</div>
+              <p class="lead" style="margin-top: 0">
+                Exhaust volume limits are increasingly enforced. On bikes, full systems and short cans can quickly exceed
+                legal thresholds.
+              </p>
+              <div class="notice">
+                <strong>Best practice:</strong> use resonators/quality mufflers, keep cats where required, and avoid “cold
+                start” maps on street builds.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Lighting & visibility</div>
+              <p class="lead" style="margin-top: 0">
+                DRL colors, underglow, tinted lamps, and headlight swaps may be restricted. Improper aim can be unsafe and
+                illegal.
+              </p>
+              <div class="notice notice--warn">
+                <strong>Avoid:</strong> prohibited colors on public roads, overly tinted lenses, and misaligned projectors.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Fitment & safety</div>
+              <p class="lead" style="margin-top: 0">
+                Aggressive offsets, stretched tyres, and poorly secured aero can fail at speed. Suspension changes require
+                alignment. Brake upgrades require correct bedding.
+              </p>
+              <div class="notice notice--bad">
+                <strong>Critical:</strong> torque fasteners to spec, re-check after heat cycles, and never compromise wheel
+                integrity.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container panel">
+          <div class="panel__pad">
+            <div class="row" style="align-items: center">
+              <div class="row__left">
+                <div class="row__title">Disclaimer</div>
+                <div class="row__sub">Non-legal advice. Use professional services and verified parts.</div>
+              </div>
+              <div class="row__right">
+                <a class="btn btn--ghost" href="knowledge.html">Open Knowledge Base</a>
+              </div>
+            </div>
+            <div style="height: 12px"></div>
+            <div class="notice">
+              <strong>ApexForge is a prototype.</strong> All performance predictions are estimates. Always validate with
+              dyno runs, datalogs, and real-world testing in safe environments. For track use, follow sanctioning body
+              rules and safety requirements (helmets, gear, inspections).
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <p class="small">Legal notes are informational only. Always verify your local regulations.</p>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Modules</div>
+          <div class="small">
+            <a href="performance.html">Performance Lab</a><br />
+            <a href="aesthetic.html">Aesthetic Studio</a><br />
+            <a href="garage.html">Digital Garage</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Trust</div>
+          <div class="small"><a href="knowledge.html">Guides</a><br /><a href="community.html">Community</a></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/ui.js"></script>
+  </body>
+</html>
+

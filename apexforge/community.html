@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="ApexForge Community — Browse, like, and discover the best car & bike builds from the global ApexForge community."/>
+  <meta name="theme-color" content="#07090c"/>
+  <title>Community — ApexForge</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true"></span><span>ApexForge</span></a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="performance.html">Performance Lab</a>
+      <a href="aesthetic.html">Aesthetic Studio</a>
+      <a href="garage.html">Garage</a>
+      <a href="recommendations.html">Recommendations</a>
+      <a href="community.html" aria-current="page">Community</a>
+      <a href="knowledge.html">Knowledge</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="btn btn--ghost" type="button" data-cmdk-open>Search <span class="kbd">Ctrl K</span></button>
+      <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+      <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" aria-hidden="true" data-drawer>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="row" style="align-items:center">
+      <div class="brand"><span class="brand__mark"></span><span>ApexForge</span></div>
+      <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+    </div>
+    <div class="drawer__links">
+      <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+      <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+      <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+      <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+      <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+      <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+    </div>
+    <hr class="hr"/>
+    <div class="notice">Press <span class="kbd">Ctrl K</span> to jump anywhere.</div>
+  </div>
+</div>
+
+<div class="modal" aria-hidden="true" data-cmdk>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="modal__pad modal__top">
+      <div><div class="eyebrow"><span class="dot"></span>Command Search</div><div class="modal__title">Jump anywhere</div></div>
+      <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+    </div>
+    <div class="modal__content">
+      <div class="field"><label class="label" for="cmdk">Search</label><input class="input" id="cmdk" data-cmdk-input placeholder="Type: dyno, garage…" autocomplete="off"/></div>
+      <div style="height:12px"></div><div class="list" data-cmdk-list></div>
+    </div>
+  </div>
+</div>
+
+<main id="content">
+
+  <!-- Hero -->
+  <section class="hero-cinematic hero">
+    <div class="hero-scan"></div>
+    <div class="hero-corner hero-corner--tl"></div>
+    <div class="hero-corner hero-corner--tr"></div>
+    <div class="hero-corner hero-corner--bl"></div>
+    <div class="hero-corner hero-corner--br"></div>
+    <div class="container">
+      <div class="eyebrow"><span class="dot"></span>Global Build Community</div>
+      <div class="h1" style="margin-top:10px">Discover. Inspire.<br>Get Inspired.</div>
+      <p class="lead">Browse the world's best car and bike builds. Like, share, and find your next modification inspiration from the ApexForge creator community.</p>
+      <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn--primary" id="showMyBuildsBtn">🏎 My Builds</button>
+        <a class="btn" href="aesthetic.html">🎨 Start Building</a>
+      </div>
+      <!-- Stats strip -->
+      <div class="hero__stats" style="max-width:600px;margin-top:24px">
+        <div class="stat"><div class="stat__kpi" id="statBuilds">0</div><div class="stat__lbl">Total Builds</div></div>
+        <div class="stat"><div class="stat__kpi">2,847</div><div class="stat__lbl">Community Members</div></div>
+        <div class="stat"><div class="stat__kpi">14,920</div><div class="stat__lbl">Total Likes</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard + Filters -->
+  <section class="section--tight">
+    <div class="container split" style="align-items:start">
+
+      <!-- Left: Gallery -->
+      <div style="grid-column:1 / -1">
+        <!-- Filter tags -->
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px">
+          <div class="tag-strip" id="filterTags">
+            <button class="tag active" data-filter="all">All Builds</button>
+            <button class="tag" data-filter="track">Track</button>
+            <button class="tag" data-filter="street">Street</button>
+            <button class="tag" data-filter="show">Show</button>
+            <button class="tag" data-filter="performance">Performance</button>
+            <button class="tag" data-filter="aesthetic">Aesthetic</button>
+            <button class="tag" data-filter="bike">Bikes</button>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <select class="select" style="max-width:150px" id="sortSelect">
+              <option value="popular">Most Popular</option>
+              <option value="newest">Newest First</option>
+              <option value="featured">Featured</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Gallery grid -->
+        <div class="gallery-grid" id="communityGallery">
+          <!-- Injected by JS -->
+        </div>
+
+        <div style="height:28px"></div>
+        <div style="text-align:center">
+          <button class="btn" id="loadMoreBtn">Load More Builds</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Builders Leaderboard -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="eyebrow" style="margin-bottom:14px"><span class="dot"></span>Top Builders This Month</div>
+      <div class="split">
+        <div class="panel">
+          <div class="panel__pad">
+            <div class="list" id="leaderboard" style="gap:8px"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel__pad">
+            <div class="eyebrow" style="margin-bottom:12px"><span class="dot"></span>Trending Tags</div>
+            <div class="tag-strip" style="gap:8px">
+              <span class="tag active">#turbo</span><span class="tag">#nfs</span>
+              <span class="tag">#jdm</span><span class="tag">#widebody</span>
+              <span class="tag">#trackday</span><span class="tag">#wrap</span>
+              <span class="tag">#lowered</span><span class="tag">#carbon</span>
+              <span class="tag">#exhaust</span><span class="tag">#stance</span>
+            </div>
+            <hr class="hr"/>
+            <div class="notice">
+              <strong>Share your build:</strong> Save a build in your Garage, then use the Share button to post it here.
+            </div>
+            <div style="height:10px"></div>
+            <a class="btn btn--primary" href="aesthetic.html" style="width:100%;justify-content:center">🎨 Open Aesthetic Studio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <div class="brand"><span class="brand__mark"></span><span>ApexForge</span></div>
+      <p class="small" style="margin-top:10px">Community Gallery v1.2 — Demo data. Real community features coming with user accounts.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px">Modules</div>
+      <div class="small">
+        <a href="performance.html">Performance Lab</a><br/>
+        <a href="aesthetic.html">Aesthetic Studio</a><br/>
+        <a href="garage.html">Digital Garage</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px">Trust</div>
+      <div class="small"><a href="legal.html">Compliance</a><br/><a href="knowledge.html">Guides</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/community.js"></script>
+<script>
+// ── Community Gallery v1.2 ──────────────────────────────────────────────────
+(function(){
+  const gallery = document.getElementById('communityGallery');
+  const lb = document.getElementById('leaderboard');
+  const { readBuilds } = window.DG;
+  const { vehicles } = window.DG_DATA;
+
+  // Stat counter animation
+  function animCount(el, to, duration) {
+    let start = 0;
+    const step = to / (duration / 16);
+    const timer = setInterval(() => {
+      start = Math.min(start + step, to);
+      el.textContent = Math.round(start).toLocaleString();
+      if (start >= to) clearInterval(timer);
+    }, 16);
+  }
+  const statEl = document.getElementById('statBuilds');
+  const savedCount = readBuilds().length;
+  if (statEl) animCount(statEl, 1240 + savedCount, 1200);
+
+  // Demo build data
+  const DEMO_BUILDS = [
+    { id:1, name:'Night Circuit', car:'Toyota GR Supra', color:'#0a0c0f', tags:['aesthetic','street'], likes:284, creator:'KineticWorks', emoji:'🏎', badge:'FEATURED', filter:'street aesthetic' },
+    { id:2, name:'Carbon Apex', car:'Ford Mustang GT', color:'#141414', tags:['performance','track'], likes:217, creator:'Atelier Aero', emoji:'🐎', badge:'HOT', filter:'track performance' },
+    { id:3, name:'Street Samurai', car:'Honda Civic Type R', color:'#CC1111', tags:['street','aesthetic'], likes:198, creator:'NeonShaper', emoji:'🔴', badge:'', filter:'street aesthetic' },
+    { id:4, name:'Midnight WRX', car:'Subaru WRX STI', color:'#003080', tags:['performance','street'], likes:176, creator:'BlueRidge_Mods', emoji:'🌀', badge:'', filter:'performance street' },
+    { id:5, name:'Moto Fury', car:'Yamaha YZF-R1', color:'#111111', tags:['bike','track'], likes:165, creator:'TwoWheels_Pro', emoji:'🏍', badge:'', filter:'bike track' },
+    { id:6, name:'Viper Green GTR', car:'Nissan GT-R', color:'#166534', tags:['show','performance'], likes:152, creator:'GarageKing', emoji:'🐍', badge:'', filter:'show performance' },
+    { id:7, name:'Goldrush Huracan', car:'Lamborghini Huracán', color:'#B45309', tags:['show','aesthetic'], likes:143, creator:'ExoticBuilds', emoji:'🐂', badge:'', filter:'show aesthetic' },
+    { id:8, name:'Ducati Predator', car:'Ducati Panigale V4', color:'#7C1D1D', tags:['bike','aesthetic'], likes:131, creator:'PaniRide', emoji:'🦅', badge:'', filter:'bike aesthetic' },
+    { id:9, name:'KTM Street King', car:'KTM 390 Duke', color:'#FF5C00', tags:['bike','street'], likes:118, creator:'DukeNation', emoji:'🏁', badge:'', filter:'bike street' },
+  ];
+
+  function buildCard(b) {
+    const div = document.createElement('div');
+    div.className = 'build-card';
+    div.dataset.filter = b.filter;
+    div.innerHTML = `
+      <div class="build-card__thumb">
+        <div class="build-card__thumb-car">${b.emoji}</div>
+        <div class="build-card__thumb-glow"></div>
+        ${b.badge ? `<div class="build-card__badge">${b.badge}</div>` : ''}
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at 60% 40%,${b.color}22,transparent 65%)"></div>
+      </div>
+      <div class="build-card__body">
+        <div class="build-card__name">${b.name}</div>
+        <div class="build-card__sub">${b.car} · by ${b.creator}</div>
+        <div class="build-card__meta">
+          ${b.tags.map(t=>`<span class="pill">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="build-card__actions">
+        <button class="like-btn" data-liked="false" data-count="${b.likes}">
+          <span class="like-icon">♥</span>
+          <span class="like-count">${b.likes}</span>
+        </button>
+        <button class="btn btn--ghost" style="font-size:11px;padding:6px 10px">Share</button>
+      </div>`;
+    
+    // Like toggle
+    const likeBtn = div.querySelector('.like-btn');
+    likeBtn.addEventListener('click', () => {
+      const liked = likeBtn.dataset.liked === 'true';
+      const count = parseInt(likeBtn.dataset.count);
+      const newCount = liked ? count - 1 : count + 1;
+      likeBtn.dataset.liked = (!liked).toString();
+      likeBtn.dataset.count = newCount;
+      likeBtn.querySelector('.like-count').textContent = newCount;
+      likeBtn.classList.toggle('liked', !liked);
+      window.DG?.toast('Community', liked ? 'Like removed.' : `You liked "${b.name}".`);
+    });
+    return div;
+  }
+
+  function renderGallery(filter) {
+    if (!gallery) return;
+    gallery.innerHTML = '';
+    const filtered = filter === 'all' ? DEMO_BUILDS : DEMO_BUILDS.filter(b => b.filter.includes(filter));
+    filtered.forEach(b => gallery.appendChild(buildCard(b)));
+  }
+  renderGallery('all');
+
+  // Filter tags
+  document.querySelectorAll('[data-filter]').forEach(tag => {
+    tag.addEventListener('click', () => {
+      document.querySelectorAll('[data-filter]').forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      renderGallery(tag.dataset.filter);
+    });
+  });
+
+  // Leaderboard
+  const TOP_BUILDERS = [
+    { name:'KineticWorks', car:'Toyota GR Supra', likes:284, rank:1 },
+    { name:'Atelier Aero', car:'Ford Mustang GT', likes:217, rank:2 },
+    { name:'NeonShaper', car:'Honda Civic Type R', likes:198, rank:3 },
+    { name:'BlueRidge_Mods', car:'Subaru WRX STI', likes:176, rank:4 },
+    { name:'GarageKing', car:'Nissan GT-R', likes:152, rank:5 },
+  ];
+  const rankClass = ['gold','silver','bronze','',''];
+  TOP_BUILDERS.forEach((b, i) => {
+    const row = document.createElement('div');
+    row.className = 'lb-row';
+    row.innerHTML = `
+      <div class="lb-rank ${rankClass[i]}">${b.rank}</div>
+      <div class="lb-info">
+        <div class="lb-name">${b.name}</div>
+        <div class="lb-car">${b.car}</div>
+      </div>
+      <div class="lb-likes">♥ ${b.likes}</div>`;
+    lb?.appendChild(row);
+  });
+
+  // Load more (demo — just reshuffles)
+  document.getElementById('loadMoreBtn')?.addEventListener('click', function() {
+    this.textContent = 'All builds loaded';
+    this.disabled = true;
+    window.DG?.toast('Community', 'All current builds are displayed.');
+  });
+
+  // My builds button
+  document.getElementById('showMyBuildsBtn')?.addEventListener('click', () => {
+    window.location.href = 'garage.html';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="ApexForge Aesthetic Studio — NFS-style 3D garage configurator with real-time paint, materials, and visual customization."/>
+  <meta name="theme-color" content="#07090c"/>
+  <title>Aesthetic Studio — ApexForge v1.2</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+  <style>
+    /* ── Garage Viewer Layout ── */
+    .garage-shell{
+      display:grid;
+      grid-template-columns:1fr 320px;
+      gap:0;
+      height:calc(100vh - 62px);
+      min-height:560px;
+      position:relative;
+    }
+    @media(max-width:960px){.garage-shell{grid-template-columns:1fr;height:auto}}
+
+    /* ── Canvas Area ── */
+    .garage-view{
+      position:relative;
+      background:#060810;
+      overflow:hidden;
+    }
+    #garageCanvas{
+      width:100%;height:100%;display:block;
+    }
+    @media(max-width:960px){#garageCanvas{height:55vw;min-height:320px}}
+
+    /* ── HUD overlays ── */
+    .garage-hud{
+      position:absolute;top:0;left:0;right:0;bottom:0;
+      pointer-events:none;
+    }
+    .hud-logo{
+      position:absolute;top:16px;left:20px;
+      font-family:var(--display);font-size:13px;font-weight:800;
+      color:rgba(255,255,255,.55);letter-spacing:.12em;
+    }
+    .hud-label{
+      position:absolute;bottom:16px;left:20px;
+      font-family:var(--mono);font-size:11px;
+      color:rgba(0,200,255,.7);letter-spacing:.08em;
+    }
+    .hud-controls{
+      position:absolute;bottom:16px;right:20px;
+      font-family:var(--mono);font-size:10px;
+      color:rgba(255,255,255,.35);letter-spacing:.06em;text-align:right;
+    }
+
+    /* ── Camera mode bar ── */
+    .cam-bar{
+      position:absolute;top:16px;left:50%;transform:translateX(-50%);
+      display:flex;gap:6px;pointer-events:all;
+      background:rgba(6,8,16,.75);border:1px solid rgba(255,255,255,.09);
+      border-radius:999px;padding:5px 8px;
+      backdrop-filter:blur(10px);
+    }
+    .cam-btn{
+      padding:5px 12px;border-radius:999px;border:1px solid transparent;
+      background:transparent;color:rgba(255,255,255,.55);
+      font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+      cursor:pointer;transition:all .18s ease;white-space:nowrap;
+    }
+    .cam-btn:hover,.cam-btn.active{
+      color:#fff;border-color:rgba(0,200,255,.3);background:rgba(0,200,255,.10);
+    }
+    .cam-btn.active{color:var(--accent)}
+
+    /* ── Animation control bar ── */
+    .anim-bar{
+      position:absolute;bottom:50px;left:50%;transform:translateX(-50%);
+      display:flex;gap:6px;pointer-events:all;
+      background:rgba(6,8,16,.75);border:1px solid rgba(255,255,255,.09);
+      border-radius:999px;padding:5px 8px;
+      backdrop-filter:blur(10px);
+    }
+
+    /* ── Right panel ── */
+    .config-panel{
+      background:linear-gradient(180deg, rgba(9,11,18,.97), rgba(6,8,14,.99));
+      border-left:1px solid rgba(255,255,255,.07);
+      overflow-y:auto;
+      display:flex;flex-direction:column;
+    }
+    .config-section{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .config-label{
+      font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--accent);
+      margin-bottom:10px;display:flex;align-items:center;gap:6px;
+    }
+    .config-label::before{
+      content:"";width:4px;height:4px;border-radius:50%;
+      background:var(--accent);box-shadow:0 0 6px var(--accent);
+    }
+
+    /* ── Color palette ── */
+    .palette{display:flex;gap:7px;flex-wrap:wrap}
+    .pal-swatch{
+      width:32px;height:32px;border-radius:10px;
+      border:2px solid transparent;cursor:pointer;
+      transition:transform .15s, border-color .15s, box-shadow .15s;
+      position:relative;
+    }
+    .pal-swatch:hover{transform:scale(1.12)}
+    .pal-swatch[aria-pressed="true"]{
+      border-color:rgba(255,255,255,.9);
+      box-shadow:0 0 14px rgba(255,255,255,.3);
+      transform:scale(1.08);
+    }
+    .pal-swatch::after{
+      content:"";position:absolute;inset:2px;border-radius:7px;
+      background:linear-gradient(135deg,rgba(255,255,255,.22),transparent 60%);
+    }
+
+    /* ── Finish pills ── */
+    .finish-row{display:flex;gap:6px;flex-wrap:wrap}
+    .finish-pill{
+      padding:6px 11px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25);
+      color:var(--muted);font-size:11px;font-family:var(--mono);letter-spacing:.06em;
+      cursor:pointer;transition:all .18s ease;
+    }
+    .finish-pill[aria-pressed="true"]{
+      border-color:rgba(0,200,255,.5);color:var(--accent);
+      background:rgba(0,200,255,.1);box-shadow:0 0 12px rgba(0,200,255,.15);
+    }
+
+    /* ── Toggle switch ── */
+    .toggle-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+    }
+    .toggle-row:last-child{border-bottom:0}
+    .toggle-name{font-size:13px;font-weight:600}
+    .toggle-sub{font-size:11px;color:var(--muted);margin-top:2px}
+    .toggle-switch{
+      position:relative;width:38px;height:22px;cursor:pointer;
+    }
+    .toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+    .toggle-track{
+      position:absolute;inset:0;border-radius:999px;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);
+      transition:background .2s ease;
+    }
+    .toggle-thumb{
+      position:absolute;top:3px;left:3px;
+      width:14px;height:14px;border-radius:50%;
+      background:rgba(255,255,255,.5);transition:all .2s ease;
+    }
+    input:checked ~ .toggle-track{background:rgba(0,200,255,.35);border-color:rgba(0,200,255,.5)}
+    input:checked ~ .toggle-thumb{transform:translateX(16px);background:var(--accent);box-shadow:0 0 8px rgba(0,200,255,.5)}
+
+    /* ── Color inputs ── */
+    .color-input-row{display:flex;align-items:center;gap:8px}
+    input[type=color]{
+      width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.15);
+      background:none;cursor:pointer;padding:2px;
+    }
+    .color-hex{
+      flex:1;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.10);
+      border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:12px;
+      color:var(--text);
+    }
+
+    /* ── Specs readout ── */
+    .specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .spec-box{
+      background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;padding:10px;
+    }
+    .spec-val{font-family:var(--display);font-size:17px;font-weight:800;color:var(--accent)}
+    .spec-lbl{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
+
+    /* ── Export btn ── */
+    .export-btn{
+      margin:12px 16px;border-radius:14px;padding:12px;text-align:center;
+      background:linear-gradient(135deg,rgba(0,200,255,.15),rgba(255,92,0,.10));
+      border:1px solid rgba(0,200,255,.25);cursor:pointer;
+      font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.06em;
+      color:var(--text);transition:all .2s ease;
+    }
+    .export-btn:hover{background:linear-gradient(135deg,rgba(0,200,255,.25),rgba(255,92,0,.18));border-color:rgba(0,200,255,.45)}
+
+    /* ── Loading overlay ── */
+    .garage-loading{
+      position:absolute;inset:0;
+      background:rgba(6,8,16,.92);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      z-index:10;transition:opacity .6s ease;
+    }
+    .garage-loading.hidden{opacity:0;pointer-events:none}
+    .loader-ring{
+      width:52px;height:52px;border-radius:50%;
+      border:3px solid rgba(0,200,255,.15);
+      border-top-color:var(--accent);
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loader-text{
+      margin-top:16px;font-family:var(--mono);font-size:12px;
+      color:var(--accent);letter-spacing:.14em;
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true"></span><span>ApexForge</span></a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="performance.html">Performance Lab</a>
+      <a href="aesthetic.html" aria-current="page">Aesthetic Studio</a>
+      <a href="garage.html">Garage</a>
+      <a href="recommendations.html">Recommendations</a>
+      <a href="community.html">Community</a>
+      <a href="knowledge.html">Knowledge</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="btn btn--ghost" type="button" data-cmdk-open>Search <span class="kbd">Ctrl K</span></button>
+      <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+      <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+    </div>
+  </div>
+</header>
+
+<!-- Drawer -->
+<div class="drawer" aria-hidden="true" data-drawer>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="row" style="align-items:center">
+      <div class="brand"><span class="brand__mark"></span><span>ApexForge</span></div>
+      <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+    </div>
+    <div class="drawer__links">
+      <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+      <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+      <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+      <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+      <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+      <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+    </div>
+    <hr class="hr"/>
+    <div class="notice">Press <span class="kbd">Ctrl K</span> to jump anywhere.</div>
+  </div>
+</div>
+
+<!-- Command palette -->
+<div class="modal" aria-hidden="true" data-cmdk>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="modal__pad modal__top">
+      <div><div class="eyebrow"><span class="dot"></span>Command Search</div><div class="modal__title">Jump anywhere</div></div>
+      <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+    </div>
+    <div class="modal__content">
+      <div class="field"><label class="label" for="cmdk">Search</label><input class="input" id="cmdk" data-cmdk-input placeholder="Type: dyno, garage…" autocomplete="off"/></div>
+      <div style="height:12px"></div>
+      <div class="list" data-cmdk-list></div>
+    </div>
+  </div>
+</div>
+
+<main id="content">
+  <!-- ── Full-screen Garage Shell ── -->
+  <div class="garage-shell">
+
+    <!-- ── 3D Viewport ── -->
+    <div class="garage-view">
+      <canvas id="garageCanvas" aria-label="NFS-style 3D garage configurator — drag to rotate, scroll to zoom"></canvas>
+
+      <!-- Loading overlay -->
+      <div class="garage-loading" id="garageLoading">
+        <div class="loader-ring"></div>
+        <div class="loader-text">INITIALIZING GARAGE</div>
+      </div>
+
+      <!-- HUD overlays -->
+      <div class="garage-hud">
+        <div class="hud-logo">APEXFORGE / AESTHETIC STUDIO</div>
+        <div class="hud-label" id="hudLabel">TOYOTA GR SUPRA — CUSTOM BUILD</div>
+        <div class="hud-controls">DRAG TO ROTATE · SCROLL TO ZOOM</div>
+
+        <!-- Camera presets -->
+        <div class="cam-bar">
+          <button class="cam-btn active" data-cam="garage">GARAGE</button>
+          <button class="cam-btn" data-cam="front">FRONT</button>
+          <button class="cam-btn" data-cam="side">SIDE</button>
+          <button class="cam-btn" data-cam="rear">REAR</button>
+          <button class="cam-btn" data-cam="top">TOP</button>
+          <button class="cam-btn" data-cam="wheel">WHEEL</button>
+        </div>
+
+        <!-- Animation triggers -->
+        <div class="anim-bar">
+          <button class="cam-btn" id="animHeadlights">💡 LIGHTS</button>
+          <button class="cam-btn" id="animTaillights">🔴 TAIL</button>
+          <button class="cam-btn" id="animWheels">🔄 SPIN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Config Panel ── -->
+    <div class="config-panel" id="configPanel">
+
+      <!-- Paint color -->
+      <div class="config-section">
+        <div class="config-label">Body Color</div>
+        <div class="palette" id="colorPalette">
+          <button class="pal-swatch" style="background:#FF2A2A" data-color="#FF2A2A" aria-pressed="true" title="Racing Red"></button>
+          <button class="pal-swatch" style="background:#00C8FF" data-color="#00C8FF" aria-pressed="false" title="Neon Cyan"></button>
+          <button class="pal-swatch" style="background:#FF5C00" data-color="#FF5C00" aria-pressed="false" title="Inferno Orange"></button>
+          <button class="pal-swatch" style="background:#E7EEFC" data-color="#E7EEFC" aria-pressed="false" title="Pearl White"></button>
+          <button class="pal-swatch" style="background:#0a0c0f" data-color="#0a0c0f" aria-pressed="false" title="Midnight Black"></button>
+          <button class="pal-swatch" style="background:#8B5CF6" data-color="#8B5CF6" aria-pressed="false" title="Ultra Violet"></button>
+          <button class="pal-swatch" style="background:#22C55E" data-color="#22C55E" aria-pressed="false" title="Viper Green"></button>
+          <button class="pal-swatch" style="background:#F59E0B" data-color="#F59E0B" aria-pressed="false" title="Goldrush"></button>
+          <button class="pal-swatch" style="background:#EC4899" data-color="#EC4899" aria-pressed="false" title="Tokyo Pink"></button>
+          <button class="pal-swatch" style="background:#6366F1" data-color="#6366F1" aria-pressed="false" title="Cobalt Blue"></button>
+          <button class="pal-swatch" style="background:#14B8A6" data-color="#14B8A6" aria-pressed="false" title="Carbon Teal"></button>
+          <button class="pal-swatch" style="background:#64748B" data-color="#64748B" aria-pressed="false" title="Gunmetal"></button>
+        </div>
+        <div style="height:10px"></div>
+        <div class="color-input-row">
+          <input type="color" id="customColor" value="#FF2A2A" title="Custom color"/>
+          <input class="color-hex" type="text" id="colorHex" value="#FF2A2A" maxlength="7" spellcheck="false"/>
+        </div>
+      </div>
+
+      <!-- Paint finish -->
+      <div class="config-section">
+        <div class="config-label">Paint Finish</div>
+        <div class="finish-row">
+          <button class="finish-pill" data-finish="gloss" aria-pressed="true">Gloss</button>
+          <button class="finish-pill" data-finish="matte" aria-pressed="false">Matte</button>
+          <button class="finish-pill" data-finish="metallic" aria-pressed="false">Metallic</button>
+          <button class="finish-pill" data-finish="chrome" aria-pressed="false">Chrome</button>
+          <button class="finish-pill" data-finish="carbon" aria-pressed="false">Carbon</button>
+        </div>
+      </div>
+
+      <!-- Rim color -->
+      <div class="config-section">
+        <div class="config-label">Rim Color</div>
+        <div class="palette">
+          <button class="pal-swatch" style="background:#888888" data-rim="#888888" aria-pressed="true" title="Silver"></button>
+          <button class="pal-swatch" style="background:#111111" data-rim="#111111" aria-pressed="false" title="Gloss Black"></button>
+          <button class="pal-swatch" style="background:#dddddd" data-rim="#dddddd" aria-pressed="false" title="Chrome"></button>
+          <button class="pal-swatch" style="background:#8B4513" data-rim="#8B4513" aria-pressed="false" title="Bronze"></button>
+          <button class="pal-swatch" style="background:#00C8FF" data-rim="#00C8FF" aria-pressed="false" title="Neon Blue"></button>
+          <button class="pal-swatch" style="background:#FF5C00" data-rim="#FF5C00" aria-pressed="false" title="Inferno"></button>
+        </div>
+        <div style="height:8px"></div>
+        <div class="color-input-row">
+          <input type="color" id="rimColor" value="#888888" title="Custom rim color"/>
+          <input class="color-hex" type="text" id="rimHex" value="#888888" maxlength="7"/>
+        </div>
+      </div>
+
+      <!-- Mods toggles -->
+      <div class="config-section">
+        <div class="config-label">Visual Mods</div>
+        <div>
+          <div class="toggle-row">
+            <div><div class="toggle-name">Rear Spoiler</div><div class="toggle-sub">Carbon GT wing</div></div>
+            <label class="toggle-switch"><input type="checkbox" id="toggleSpoiler" checked/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-name">Headlights</div><div class="toggle-sub">LED DRL active</div></div>
+            <label class="toggle-switch"><input type="checkbox" id="toggleHeadlights"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-name">Taillights</div><div class="toggle-sub">Sequential LED</div></div>
+            <label class="toggle-switch"><input type="checkbox" id="toggleTaillights"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Build specs -->
+      <div class="config-section">
+        <div class="config-label">Build Overview</div>
+        <div class="specs-grid">
+          <div class="spec-box"><div class="spec-val" id="specHp">335</div><div class="spec-lbl">STOCK HP</div></div>
+          <div class="spec-box"><div class="spec-val" id="specTq">500</div><div class="spec-lbl">TQ (NM)</div></div>
+          <div class="spec-box"><div class="spec-val" id="specWt">1520</div><div class="spec-lbl">WEIGHT KG</div></div>
+          <div class="spec-box"><div class="spec-val" id="specDrive">RWD</div><div class="spec-lbl">DRIVETRAIN</div></div>
+        </div>
+      </div>
+
+      <!-- Vehicle picker -->
+      <div class="config-section">
+        <div class="config-label">Platform Lock</div>
+        <form class="form" data-vehicle-form style="gap:8px">
+          <select class="select" data-vehicle="type"><option value="car">Car</option><option value="bike">Bike</option></select>
+          <select class="select" data-vehicle="make"><option value="">Select make…</option></select>
+          <select class="select" data-vehicle="model" disabled><option value="">Select model…</option></select>
+          <select class="select" data-vehicle="year" disabled><option value="">Select year…</option></select>
+        </form>
+      </div>
+
+      <!-- Save / share -->
+      <button class="export-btn" id="saveBuildBtn" type="button">💾 SAVE BUILD TO GARAGE</button>
+      <div style="height:4px"></div>
+      <button class="export-btn" id="screenshotBtn" type="button" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)">📸 SCREENSHOT</button>
+      <div style="height:16px"></div>
+    </div>
+  </div>
+
+  <!-- ── Before/After section ── -->
+  <section class="section">
+    <div class="container">
+      <div class="row" style="align-items:flex-end">
+        <div class="row__left">
+          <div class="eyebrow"><span class="dot"></span>Before / After</div>
+          <div class="h2">Visual impact at a glance</div>
+          <p class="lead" style="margin-top:0">Drag the slider to compare a stock baseline vs a finished build concept.</p>
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="beforeAfter" data-before-after>
+        <img src="assets/images/before.svg" alt="Stock vehicle concept"/>
+        <div class="beforeAfter__after" data-before-after-after>
+          <img src="assets/images/after.svg" alt="Modified vehicle concept"/>
+        </div>
+        <div class="beforeAfter__handle" data-before-after-handle aria-hidden="true"></div>
+        <div class="beforeAfter__knob" data-before-after-knob>◀ ▶</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Aesthetic Mod Catalog ── -->
+  <section class="section section--tight">
+    <div class="container panel">
+      <div class="panel__pad">
+        <div class="row" style="align-items:center">
+          <div class="row__left">
+            <div class="row__title">Aesthetic Upgrades Catalog</div>
+            <div class="row__sub">Select cosmetic mods and save them into your Garage build.</div>
+          </div>
+          <div class="row__right">
+            <span class="pill">Selected: <span data-aest-selected>0</span></span>
+            <button class="btn btn--ghost" type="button" data-aest-clear>Clear</button>
+            <button class="btn btn--primary" type="button" data-aest-save>Save to Garage</button>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="list" data-aest-mod-list></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Community showcase ── -->
+  <section class="section">
+    <div class="container">
+      <div class="row" style="align-items:flex-end;margin-bottom:16px">
+        <div class="row__left">
+          <div class="eyebrow"><span class="dot"></span>Community Showcase</div>
+          <div class="h2">Creator highlights</div>
+        </div>
+        <div class="row__right"><a class="btn btn--ghost" href="community.html">View All →</a></div>
+      </div>
+      <div class="grid grid--3">
+        <div class="card">
+          <div class="card__pad">
+            <div class="card__title">🌙 Night Circuit</div>
+            <p class="card__desc">Satin black wrap + cyan DRL + track wheels. Minimal chrome. Maximum presence.</p>
+            <div class="card__meta"><span class="pill">Wrap</span><span class="pill">Lighting</span><span class="pill">Wheels</span></div>
+            <div class="card__link">KineticWorks →</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__pad">
+            <div class="card__title">⚡ Carbon Apex</div>
+            <p class="card__desc">Carbon aero + clean paint + PPF. Built for speed, finished like jewelry.</p>
+            <div class="card__meta"><span class="pill">Aero</span><span class="pill">PPF</span><span class="pill">Detailing</span></div>
+            <div class="card__link">Atelier Aero →</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__pad">
+            <div class="card__title">🔴 Street Samurai</div>
+            <p class="card__desc">Candy red accent, smoked lights, subtle decals. Balanced aggression.</p>
+            <div class="card__meta"><span class="pill">Paint</span><span class="pill">Decals</span><span class="pill">Lighting</span></div>
+            <div class="card__link">NeonShaper →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <div class="brand"><span class="brand__mark"></span><span>ApexForge</span></div>
+      <p class="small" style="margin-top:10px">Aesthetic Studio v1.2 — NFS-style 3D Garage powered by Three.js. Demo prototype.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px">Design Tools</div>
+      <div class="small">
+        <a href="aesthetic.html">3D Configurator</a><br/>
+        <a href="garage.html">Save Builds</a><br/>
+        <a href="community.html">Creator Feed</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-weight:800;margin-bottom:12px;font-size:13px">Trust</div>
+      <div class="small"><a href="legal.html">Compliance</a><br/><a href="knowledge.html">Guides</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Three.js r128 via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- Core scripts -->
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/ui.js"></script>
+
+<!-- NFS Garage 3D Engine -->
+<script src="assets/garage3d.js"></script>
+
+<!-- Aesthetic page logic -->
+<script src="assets/aesthetic.js"></script>
+
+<script>
+// ── Page-level wiring for v1.2 ──────────────────────────────────────────────
+(function(){
+  const { qs, qsa, toast, readBuilds, writeBuilds } = window.DG;
+
+  // Hide loading overlay once Three.js scene is initialized
+  setTimeout(() => {
+    const overlay = document.getElementById('garageLoading');
+    if (overlay) overlay.classList.add('hidden');
+  }, 900);
+
+  // Custom color input + hex sync
+  const customColorInput = document.getElementById('customColor');
+  const colorHexInput    = document.getElementById('colorHex');
+  if (customColorInput && colorHexInput) {
+    customColorInput.addEventListener('input', e => {
+      colorHexInput.value = e.target.value;
+      window.GARAGE3D?.setBodyColor(e.target.value);
+      syncSwatches('[data-color]', e.target.value);
+    });
+    colorHexInput.addEventListener('change', e => {
+      let v = e.target.value.trim();
+      if (!v.startsWith('#')) v = '#' + v;
+      customColorInput.value = v;
+      window.GARAGE3D?.setBodyColor(v);
+    });
+  }
+
+  // Rim color sync
+  const rimColorInput = document.getElementById('rimColor');
+  const rimHexInput   = document.getElementById('rimHex');
+  if (rimColorInput && rimHexInput) {
+    rimColorInput.addEventListener('input', e => {
+      rimHexInput.value = e.target.value;
+      window.GARAGE3D?.setRimColor(e.target.value);
+    });
+    rimHexInput.addEventListener('change', e => {
+      let v = e.target.value.trim();
+      if (!v.startsWith('#')) v = '#' + v;
+      rimColorInput.value = v;
+      window.GARAGE3D?.setRimColor(v);
+    });
+  }
+
+  // Palette swatches (body color)
+  document.querySelectorAll('[data-color]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const c = btn.dataset.color;
+      window.GARAGE3D?.setBodyColor(c);
+      if (customColorInput) customColorInput.value = c;
+      if (colorHexInput) colorHexInput.value = c;
+      syncSwatches('[data-color]', c);
+    });
+  });
+
+  // Rim swatches
+  document.querySelectorAll('[data-rim]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const c = btn.dataset.rim;
+      window.GARAGE3D?.setRimColor(c);
+      if (rimColorInput) rimColorInput.value = c;
+      if (rimHexInput) rimHexInput.value = c;
+      syncSwatches('[data-rim]', c);
+    });
+  });
+
+  function syncSwatches(selector, active) {
+    document.querySelectorAll(selector).forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset[selector.includes('color') ? 'color' : 'rim'] === active ? 'true' : 'false');
+    });
+  }
+
+  // Finish pills
+  document.querySelectorAll('[data-finish]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.GARAGE3D?.setFinish(btn.dataset.finish);
+      document.querySelectorAll('[data-finish]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+    });
+  });
+
+  // Toggle switches
+  const spoilerEl = document.getElementById('toggleSpoiler');
+  spoilerEl?.addEventListener('change', e => window.GARAGE3D?.setSpoiler(e.target.checked));
+  const headEl = document.getElementById('toggleHeadlights');
+  headEl?.addEventListener('change', e => window.GARAGE3D?.setHeadlights(e.target.checked));
+  const tailEl = document.getElementById('toggleTaillights');
+  tailEl?.addEventListener('change', e => window.GARAGE3D?.setTaillights(e.target.checked));
+
+  // Animation bar buttons
+  let headlightsOn = false, taillightsOn = false;
+  document.getElementById('animHeadlights')?.addEventListener('click', function() {
+    headlightsOn = !headlightsOn;
+    window.GARAGE3D?.setHeadlights(headlightsOn);
+    if (headEl) headEl.checked = headlightsOn;
+    this.style.color = headlightsOn ? '#ffe8c0' : '';
+    toast('Headlights', headlightsOn ? 'LED DRL activated.' : 'Headlights off.');
+  });
+  document.getElementById('animTaillights')?.addEventListener('click', function() {
+    taillightsOn = !taillightsOn;
+    window.GARAGE3D?.setTaillights(taillightsOn);
+    if (tailEl) tailEl.checked = taillightsOn;
+    this.style.color = taillightsOn ? '#ff4444' : '';
+    toast('Taillights', taillightsOn ? 'Sequential LEDs activated.' : 'Taillights off.');
+  });
+
+  // Camera buttons
+  document.querySelectorAll('[data-cam]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.GARAGE3D?.setCam(btn.dataset.cam);
+      document.querySelectorAll('[data-cam]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Screenshot
+  document.getElementById('screenshotBtn')?.addEventListener('click', () => {
+    const canvas = document.getElementById('garageCanvas');
+    if (!canvas) return;
+    try {
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url; a.download = 'apexforge-build.png'; a.click();
+      toast('Screenshot', 'Build image saved.');
+    } catch(e) {
+      toast('Screenshot', 'Could not capture — try a different browser.');
+    }
+  });
+
+  // Save build
+  document.getElementById('saveBuildBtn')?.addEventListener('click', () => {
+    const builds = readBuilds();
+    const now = new Date().toISOString();
+    const build = {
+      id: `bld_${Math.random().toString(16).slice(2)}_${Date.now()}`,
+      name: `Aesthetic Build — ${now.slice(0,10)}`,
+      vehicleId: 'car-supra-a90-2020',
+      usage: 'street',
+      selectedModIds: [],
+      notes: 'Created in Aesthetic Studio v1.2',
+      createdAt: now, updatedAt: now,
+    };
+    builds.unshift(build);
+    writeBuilds(builds);
+    toast('Garage', 'Build saved! Open the Garage to edit.');
+  });
+
+  // Vehicle picker → update HUD label and specs
+  const { mountVehiclePicker, vehicleLabel } = window.DG_UI;
+  const pickerRoot = qs('[data-vehicle-form]');
+  const picker = mountVehiclePicker(pickerRoot, { persistLast: true });
+  const hudLabel = document.getElementById('hudLabel');
+
+  function updateSpecs(v) {
+    if (!v) return;
+    if (hudLabel) hudLabel.textContent = `${vehicleLabel(v).toUpperCase()} — CUSTOM BUILD`;
+    const s = id => document.getElementById(id);
+    if (s('specHp')) s('specHp').textContent = v.stockHp;
+    if (s('specTq')) s('specTq').textContent = v.stockTqNm;
+    if (s('specWt')) s('specWt').textContent = v.weightKg;
+    if (s('specDrive')) s('specDrive').textContent = v.drivetrain;
+  }
+
+  pickerRoot?.addEventListener('change', () => updateSpecs(picker.getValue()));
+
+  // Before/after slider
+  (function(){
+    const root = qs('[data-before-after]');
+    if (!root) return;
+    const after = qs('[data-before-after-after]', root);
+    const handle = qs('[data-before-after-handle]', root);
+    const knob = qs('[data-before-after-knob]', root);
+    if (!after || !handle) return;
+    let dragging = false;
+    function setPct(p) {
+      p = Math.max(0, Math.min(1, p));
+      after.style.width = `${p*100}%`;
+      handle.style.left = `${p*100}%`;
+      if (knob) knob.style.left = `${p*100}%`;
+    }
+    root.addEventListener('pointerdown', e => { dragging = true; root.setPointerCapture(e.pointerId); setPct((e.clientX - root.getBoundingClientRect().left)/root.offsetWidth); });
+    root.addEventListener('pointermove', e => { if (dragging) setPct((e.clientX - root.getBoundingClientRect().left)/root.offsetWidth); });
+    root.addEventListener('pointerup', () => dragging = false);
+    setPct(0.52);
+  })();
+
+  // Aesthetic catalog (from existing aesthetic.js)
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Engineering-grade performance upgrades with dyno visualization and sprint simulations." />
+    <meta name="theme-color" content="#07090c" />
+    <title>Performance Lab — ApexForge</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="index.html" aria-label="ApexForge Home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>ApexForge</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          <a href="performance.html" aria-current="page">Performance Lab</a>
+          <a href="aesthetic.html">Aesthetic Studio</a>
+          <a href="garage.html">Garage</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="community.html">Community</a>
+          <a href="knowledge.html">Knowledge</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="btn btn--ghost" type="button" data-cmdk-open>
+            Search <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+          <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" aria-hidden="true" data-drawer>
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="row" style="align-items: center">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+        </div>
+        <div class="drawer__links">
+          <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+          <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+          <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+          <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+          <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+          <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+          <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+        </div>
+        <hr class="hr" />
+        <div class="notice">
+          Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" aria-hidden="true" data-cmdk>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="modal__pad modal__top">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Command Search</div>
+            <div class="modal__title">Jump to modules, builds, and tools</div>
+          </div>
+          <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+        </div>
+        <div class="modal__content">
+          <div class="field">
+            <label class="label" for="cmdk">Search</label>
+            <input
+              class="input"
+              id="cmdk"
+              data-cmdk-input
+              placeholder="Type: dyno, tune, brakes…"
+              autocomplete="off"
+            />
+          </div>
+          <div style="height: 12px"></div>
+          <div class="list" data-cmdk-list></div>
+          <div style="height: 12px"></div>
+          <div class="small">
+            Keyboard: <span class="kbd">Enter</span> opens top result, <span class="kbd">Esc</span> closes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="content">
+      <section class="section section--tight">
+        <div class="container">
+          <div class="eyebrow"><span class="dot"></span>Performance Modifications</div>
+          <div class="h1" style="margin-top: 12px">Performance Lab</div>
+          <p class="lead" style="margin-top: 0">
+            Engineering-grade upgrades: ECU tuning, forced induction, intake/exhaust, drivetrain, suspension, tyres —
+            with compatibility filtering, dyno overlays, and 0–100 km/h simulations.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="container panel">
+          <div class="panel__pad">
+            <div class="row" style="align-items: center">
+              <div class="row__left">
+                <div class="row__title">Compatibility Filters</div>
+                <div class="row__sub">Target upgrades to a specific platform and baseline configuration.</div>
+              </div>
+              <div class="row__right">
+                <button class="btn btn--ghost" type="button" data-reset>Reset</button>
+                <a class="btn" href="garage.html">Open Garage</a>
+              </div>
+            </div>
+            <div style="height: 14px"></div>
+            <form class="grid grid--4" data-vehicle-form>
+              <div class="field">
+                <div class="label">Platform</div>
+                <select class="select" data-vehicle="type">
+                  <option value="car">Car</option>
+                  <option value="bike">Bike</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Make</div>
+                <select class="select" data-vehicle="make">
+                  <option value="" selected>Select make…</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Model</div>
+                <select class="select" data-vehicle="model" disabled>
+                  <option value="" selected>Select model…</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Year</div>
+                <select class="select" data-vehicle="year" disabled>
+                  <option value="" selected>Select year…</option>
+                </select>
+              </div>
+            </form>
+
+            <div style="height: 14px"></div>
+            <div class="notice notice--warn">
+              <strong>Compliance:</strong> Many power mods can be illegal for street use depending on your region (noise,
+              emissions, lighting). This platform shows best-practice notes — always verify local laws and inspection
+              requirements.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Dyno Overlay (Stock vs Modified)</div>
+                  <div class="row__sub">Prototype curve model. Upload/import & smoothing are future features.</div>
+                </div>
+                <div class="row__right">
+                  <div class="tabs" role="tablist" aria-label="Chart mode">
+                    <button class="tab" type="button" role="tab" aria-selected="true" data-chart-mode="hp">HP</button>
+                    <button class="tab" type="button" role="tab" aria-selected="false" data-chart-mode="tq">
+                      Torque
+                    </button>
+                    <button class="tab" type="button" role="tab" aria-selected="false" data-chart-mode="both">
+                      Both
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <div class="canvasWrap">
+                <canvas id="dynoChart" width="920" height="320" aria-label="Dyno chart" role="img"></canvas>
+              </div>
+              <div style="height: 10px"></div>
+              <div class="small">
+                Baseline values are from the selected vehicle. Gains are the sum of selected upgrades. This is an
+                educational estimate — validate with a real dyno and datalogs.
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Real-time Simulation</div>
+                  <div class="row__sub">0–100 km/h, quarter-mile, and traction breakdown.</div>
+                </div>
+                <div class="row__right">
+                  <button class="btn btn--primary" type="button" data-save-to-garage>Save selection to Garage</button>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <div class="grid grid--2">
+                <div class="field">
+                  <div class="label">Tyre</div>
+                  <select class="select" data-sim="tyre">
+                    <option value="street" selected>Street performance</option>
+                    <option value="touring">Touring / all-season</option>
+                    <option value="track">Track (200TW)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Surface</div>
+                  <select class="select" data-sim="surface">
+                    <option value="dry" selected>Dry</option>
+                    <option value="cold">Cold</option>
+                    <option value="wet">Wet</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Launch style</div>
+                  <select class="select" data-sim="launch">
+                    <option value="safe">Safe</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="aggressive">Aggressive</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <div class="label">Assumed weight (kg)</div>
+                  <input class="input" data-sim="weight" inputmode="numeric" placeholder="Auto" />
+                </div>
+              </div>
+
+              <div style="height: 14px"></div>
+              <div class="grid grid--3" aria-label="Simulation outputs">
+                <div class="stat">
+                  <div class="stat__kpi" data-out="0100">—</div>
+                  <div class="stat__lbl">0–100 km/h (sec)</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__kpi" data-out="qm">—</div>
+                  <div class="stat__lbl">Quarter-mile (sec)</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__kpi" data-out="trap">—</div>
+                  <div class="stat__lbl">Trap speed (km/h)</div>
+                </div>
+              </div>
+
+              <div style="height: 14px"></div>
+              <div class="notice">
+                <strong>Limitation breakdown:</strong>
+                <span data-out="breakdown">—</span>
+              </div>
+              <div style="height: 10px"></div>
+              <div class="small">
+                If you add power, support it: cooling, brakes, tyres, and drivetrain capacity. For bikes, traction and
+                wheelies dominate early acceleration.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="row" style="align-items: flex-end">
+            <div class="row__left">
+              <div class="eyebrow"><span class="dot"></span>Upgrades</div>
+              <div class="h2">Select mods to see deltas</div>
+              <div class="lead" style="margin-top: 0">
+                Check upgrades to update predicted HP/TQ curves and sprint metrics. Use fitment filters above to switch
+                platforms.
+              </div>
+            </div>
+            <div class="row__right">
+              <span class="pill">Selected: <span data-selected-count>0</span></span>
+              <button class="btn btn--ghost" type="button" data-clear-mods>Clear</button>
+            </div>
+          </div>
+
+          <div style="height: 16px"></div>
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="list" data-mod-list></div>
+            </div>
+          </div>
+
+          <div style="height: 16px"></div>
+          <div class="notice notice--bad">
+            <strong>Safety warnings:</strong> aggressive ignition/timing, inadequate fueling, high EGTs, insufficient
+            cooling, and brake fade can cause severe engine or brake failure. Use reputable tuners, torque fasteners to
+            spec, and re-check after heat cycles.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <p class="small">
+            Performance Lab is an educational prototype. Always validate on real hardware and follow local laws.
+          </p>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Next steps</div>
+          <div class="small">
+            <a href="garage.html">Save & track builds</a><br />
+            <a href="recommendations.html">Get a staged plan</a><br />
+            <a href="legal.html">Read compliance notes</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Keyboard</div>
+          <div class="small">Search: <span class="kbd">Ctrl K</span><br />Close: <span class="kbd">Esc</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/perf.js"></script>
+    <script src="assets/performance.js"></script>
+  </body>
+</html>
+

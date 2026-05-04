@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Save builds, track mods, and keep your digital garage organized." />
+    <meta name="theme-color" content="#07090c" />
+    <title>Digital Garage — ApexForge</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="index.html" aria-label="ApexForge Home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>ApexForge</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          <a href="performance.html">Performance Lab</a>
+          <a href="aesthetic.html">Aesthetic Studio</a>
+          <a href="garage.html" aria-current="page">Garage</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="community.html">Community</a>
+          <a href="knowledge.html">Knowledge</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="btn btn--ghost" type="button" data-cmdk-open>
+            Search <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+          <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" aria-hidden="true" data-drawer>
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="row" style="align-items: center">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+        </div>
+        <div class="drawer__links">
+          <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+          <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+          <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+          <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+          <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+          <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+          <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+        </div>
+        <hr class="hr" />
+        <div class="notice">
+          Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" aria-hidden="true" data-cmdk>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="modal__pad modal__top">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Command Search</div>
+            <div class="modal__title">Jump to modules, builds, and tools</div>
+          </div>
+          <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+        </div>
+        <div class="modal__content">
+          <div class="field">
+            <label class="label" for="cmdk">Search</label>
+            <input
+              class="input"
+              id="cmdk"
+              data-cmdk-input
+              placeholder="Type: build, supra, wrap…"
+              autocomplete="off"
+            />
+          </div>
+          <div style="height: 12px"></div>
+          <div class="list" data-cmdk-list></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="content">
+      <section class="section section--tight">
+        <div class="container">
+          <div class="eyebrow"><span class="dot"></span>Garage Profile</div>
+          <div class="h1" style="margin-top: 12px">Digital Garage</div>
+          <p class="lead" style="margin-top: 0">
+            Save builds, track modifications, and keep notes like a pro shop. This prototype is local-first (saved in
+            your browser). Future versions can sync accounts and public build pages.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Builds</div>
+                  <div class="row__sub">Select a build to edit or create a new one.</div>
+                </div>
+                <div class="row__right">
+                  <button class="btn btn--primary" type="button" data-new-build>New build</button>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <div class="list" data-build-list></div>
+
+              <div style="height: 14px"></div>
+              <div class="notice">
+                <strong>Pro tip:</strong> Add power only after tyres/brakes/cooling. A balanced build is a fast build.
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="row" style="align-items: center">
+                <div class="row__left">
+                  <div class="row__title">Build Editor</div>
+                  <div class="row__sub" data-build-sub>Choose a build from the left.</div>
+                </div>
+                <div class="row__right">
+                  <a class="btn" href="performance.html">Add performance mods</a>
+                </div>
+              </div>
+
+              <div style="height: 12px"></div>
+              <div data-build-empty class="notice">
+                <strong>No build selected.</strong> Create a new build, pick your vehicle, and start stacking upgrades.
+              </div>
+
+              <div data-build-editor style="display: none">
+                <div class="grid grid--2">
+                  <div class="field">
+                    <div class="label">Build name</div>
+                    <input class="input" data-build-name placeholder="My Build" />
+                  </div>
+                  <div class="field">
+                    <div class="label">Usage</div>
+                    <select class="select" data-build-usage>
+                      <option value="street" selected>Street</option>
+                      <option value="track">Track</option>
+                      <option value="touring">Touring</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style="height: 12px"></div>
+                <div class="notice" data-build-vehicle>—</div>
+
+                <div style="height: 12px"></div>
+                <div class="grid grid--3" aria-label="Predicted metrics">
+                  <div class="stat">
+                    <div class="stat__kpi" data-metric="hp">—</div>
+                    <div class="stat__lbl">Estimated HP</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__kpi" data-metric="tq">—</div>
+                    <div class="stat__lbl">Estimated Torque (Nm)</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__kpi" data-metric="0100">—</div>
+                    <div class="stat__lbl">0–100 km/h (sec)</div>
+                  </div>
+                </div>
+
+                <div style="height: 14px"></div>
+                <div class="row">
+                  <div class="row__left">
+                    <div class="row__title">Selected mods</div>
+                    <div class="row__sub">Performance + aesthetic selections saved to this build.</div>
+                  </div>
+                  <div class="row__right">
+                    <button class="btn btn--ghost" type="button" data-build-clear>Clear mods</button>
+                    <button class="btn btn--danger" type="button" data-build-delete>Delete build</button>
+                  </div>
+                </div>
+
+                <div style="height: 12px"></div>
+                <div class="list" data-build-mods></div>
+
+                <div style="height: 14px"></div>
+                <div class="field">
+                  <div class="label">Notes</div>
+                  <textarea class="input" data-build-notes rows="4" placeholder="Torque specs, alignment, tuning notes…"></textarea>
+                </div>
+                <div style="height: 12px"></div>
+                <div class="row">
+                  <div class="row__left small">Saved locally on this device/browser.</div>
+                  <div class="row__right">
+                    <button class="btn btn--primary" type="button" data-build-save>Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="container panel">
+          <div class="panel__pad">
+            <div class="row" style="align-items: center">
+              <div class="row__left">
+                <div class="row__title">Create a new build</div>
+                <div class="row__sub">Pick a vehicle baseline for your garage.</div>
+              </div>
+            </div>
+            <div style="height: 12px"></div>
+            <form class="grid grid--4" data-new-build-form>
+              <div class="field">
+                <div class="label">Platform</div>
+                <select class="select" data-vehicle="type">
+                  <option value="car">Car</option>
+                  <option value="bike">Bike</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Make</div>
+                <select class="select" data-vehicle="make">
+                  <option value="" selected>Select make…</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Model</div>
+                <select class="select" data-vehicle="model" disabled>
+                  <option value="" selected>Select model…</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="label">Year</div>
+                <select class="select" data-vehicle="year" disabled>
+                  <option value="" selected>Select year…</option>
+                </select>
+              </div>
+
+              <div class="row" style="grid-column: 1 / -1; align-items: center">
+                <button class="btn btn--primary" type="submit">Create build</button>
+                <div class="small">
+                  Tip: Start in <a href="recommendations.html">Recommendations</a> for staged upgrade paths.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <p class="small">Garage is local-only in this prototype. Account sync and sharing are roadmap features.</p>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Next</div>
+          <div class="small">
+            <a href="performance.html">Add performance mods</a><br />
+            <a href="aesthetic.html">Add aesthetic mods</a><br />
+            <a href="recommendations.html">Get a staged plan</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Trust</div>
+          <div class="small"><a href="legal.html">Compliance</a><br /><a href="knowledge.html">Guides</a></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/perf.js"></script>
+    <script src="assets/garage.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Guides on tuning, tyres, brakes, suspension, dyno interpretation, and mod safety." />
+    <meta name="theme-color" content="#07090c" />
+    <title>Knowledge Base — ApexForge</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="index.html" aria-label="ApexForge Home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>ApexForge</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          <a href="performance.html">Performance Lab</a>
+          <a href="aesthetic.html">Aesthetic Studio</a>
+          <a href="garage.html">Garage</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="community.html">Community</a>
+          <a href="knowledge.html" aria-current="page">Knowledge</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="btn btn--ghost" type="button" data-cmdk-open>
+            Search <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="btn btn--ghost" type="button" data-theme-toggle>Theme</button>
+          <button class="btn nav__menuBtn" type="button" data-drawer-open>Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" aria-hidden="true" data-drawer>
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="row" style="align-items: center">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <button class="btn btn--ghost" type="button" data-drawer-close>Close</button>
+        </div>
+        <div class="drawer__links">
+          <a href="performance.html">Performance Lab <span>ECU, dyno, simulations</span></a>
+          <a href="aesthetic.html">Aesthetic Studio <span>3D configurator, wraps, aero</span></a>
+          <a href="garage.html">Digital Garage <span>Save builds, track changes</span></a>
+          <a href="recommendations.html">Recommendations <span>Track / street / touring</span></a>
+          <a href="community.html">Community <span>Creator highlights, showcases</span></a>
+          <a href="knowledge.html">Knowledge <span>Guides, safety, compliance</span></a>
+          <a href="legal.html">Legal & Compliance <span>Road-use + safety notes</span></a>
+        </div>
+        <hr class="hr" />
+        <div class="notice">
+          Tip: Press <span class="kbd">Ctrl K</span> to jump anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" aria-hidden="true" data-cmdk>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="modal__pad modal__top">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Command Search</div>
+            <div class="modal__title">Jump to modules, builds, and tools</div>
+          </div>
+          <button class="btn btn--ghost" type="button" data-cmdk-close>Close</button>
+        </div>
+        <div class="modal__content">
+          <div class="field">
+            <label class="label" for="cmdk">Search</label>
+            <input class="input" id="cmdk" data-cmdk-input placeholder="Type: tyres, dyno, brakes…" autocomplete="off" />
+          </div>
+          <div style="height: 12px"></div>
+          <div class="list" data-cmdk-list></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="content">
+      <section class="section section--tight">
+        <div class="container">
+          <div class="eyebrow"><span class="dot"></span>Knowledge Base</div>
+          <div class="h1" style="margin-top: 12px">Build with intent</div>
+          <p class="lead" style="margin-top: 0">
+            Technical depth without the chaos. Guides, safety checklists, and compliance considerations built for
+            enthusiasts and shops.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container grid grid--3">
+          <div class="card">
+            <div class="card__pad">
+              <div class="card__title">Tuning fundamentals</div>
+              <p class="card__desc">
+                Fueling, ignition timing, boost control, knock, IATs, EGTs — how to read logs and avoid “dyno hero” tunes.
+              </p>
+              <div class="card__meta">
+                <span class="pill">ECU</span>
+                <span class="pill pill--warn">Risk</span>
+                <span class="pill">Datalogs</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__pad">
+              <div class="card__title">Brakes & heat</div>
+              <p class="card__desc">
+                Pad selection, fluid boiling, rotor temps, brake bias, bedding procedures — stopping is a performance mod.
+              </p>
+              <div class="card__meta">
+                <span class="pill">Brakes</span>
+                <span class="pill">Cooling</span>
+                <span class="pill">Track</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__pad">
+              <div class="card__title">Tyres & traction</div>
+              <p class="card__desc">
+                200TW vs touring, wet tradeoffs, heat cycles, pressures, wheel width — traction is the real horsepower.
+              </p>
+              <div class="card__meta">
+                <span class="pill">Tyres</span>
+                <span class="pill">Fitment</span>
+                <span class="pill">Pressure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="container split">
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Dyno interpretation</div>
+              <p class="lead" style="margin-top: 0">
+                Peak numbers don’t tell the story. Look at the curve shape, consistency, and repeatability. Verify with
+                real-world logs (IAT, timing, AFR, boost, slip).
+              </p>
+              <div class="notice">
+                <strong>Watch for:</strong> heat soak, torque spikes, boost creep, knock, and inconsistent runs.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__pad">
+              <div class="h2">Alignment basics</div>
+              <p class="lead" style="margin-top: 0">
+                A coilover install without an alignment is unfinished. Understand camber/toe/caster and how they affect
+                tyre wear and turn-in.
+              </p>
+              <div class="notice notice--warn">
+                <strong>Street caution:</strong> extreme camber looks aggressive but can reduce braking stability and
+                shred tyres fast.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container panel">
+          <div class="panel__pad">
+            <div class="row" style="align-items: center">
+              <div class="row__left">
+                <div class="row__title">Compliance & safety</div>
+                <div class="row__sub">Non-legal advice: know the risk surface before you buy parts.</div>
+              </div>
+              <div class="row__right">
+                <a class="btn btn--ghost" href="legal.html">Read legal notes</a>
+              </div>
+            </div>
+            <div style="height: 12px"></div>
+            <div class="grid grid--2">
+              <div class="notice notice--warn">
+                <strong>Emissions:</strong> downpipes/cats, ECU changes, and exhaust noise restrictions vary by region.
+                Always verify local inspection rules.
+              </div>
+              <div class="notice notice--bad">
+                <strong>Safety:</strong> incorrect torque, poor fueling, brake fade, or wheel fitment issues can cause
+                catastrophic failures. Use reputable installers and re-check after heat cycles.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span>ApexForge</span>
+          </div>
+          <p class="small">Knowledge Base is curated educational content. Always consult professionals for your build.</p>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Modules</div>
+          <div class="small">
+            <a href="performance.html">Performance Lab</a><br />
+            <a href="aesthetic.html">Aesthetic Studio</a><br />
+            <a href="garage.html">Digital Garage</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 800; margin-bottom: 10px">Trust</div>
+          <div class="small"><a href="legal.html">Compliance</a><br /><a href="community.html">Community</a></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/ui.js"></script>
+  </body>
+</html>
+
